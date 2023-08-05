@@ -175,16 +175,16 @@ def leaderBoard(request):
 
 def tagChangeFull(tags):
     short_names= ['NOUN', '.', 'NUM', 'ADJ', 'VERB', 'DET', 'ADP', 'CONJ', 'X', 'ADV', 'PRT', 'PRON']
-    full_names = ["Noun","Punctuation","Number","Adjoint","Verb","Article","Preposition","Conjunction","Unknown","Adverb","Particle","Pronoun"] 
+    full_names = ["Noun","Punctuation","Number","Adjective","Verb","Article","Preposition","Conjunction","Unknown","Adverb","Particle","Pronoun"] 
     final_list = []
     for tag  in tags:
         ind = short_names.index(tag)
         final_list.append(full_names[ind])
     return final_list
 
-def tagChangeFullforword(tags):
+def tagChangeFullforword(tag):
     short_names= ['NOUN', '.', 'NUM', 'ADJ', 'VERB', 'DET', 'ADP', 'CONJ', 'X', 'ADV', 'PRT', 'PRON']
-    full_names = ["Noun","Punctuation","Number","Adjoint","Verb","Article","Preposition","Conjunction","Unknown","Adverb","Particle","Pronoun"] 
+    full_names = ["Noun","Punctuation","Number","Adjective","Verb","Article","Preposition","Conjunction","Unknown","Adverb","Particle","Pronoun"] 
     # final_list = []
     # for tag  in tags:
     ind = short_names.index(tag)
