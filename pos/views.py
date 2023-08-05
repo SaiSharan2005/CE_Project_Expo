@@ -146,7 +146,7 @@ def QuizApp(request):
     ques_num = random.randint(0,2000)
     data= QuizQuestion.objects.get(id = ques_num)
     answer = QuizAns.objects.get(sentance = data)
-    options = ["NOUN","ADJ","VERB","DET","ADP","CONJ","ADV","PRT","PRON"]
+    options = ["Noun","Punctuation","Number","Adjoint","Verb","Article","Preposition","Conjunction","Unknown","Adverb","Particle","Pronoun"] 
     choices = [answer.answer]
     while len(choices)!=4:
         ansId = random.randint(0,8)
@@ -181,6 +181,15 @@ def tagChangeFull(tags):
         ind = short_names.index(tag)
         final_list.append(full_names[ind])
     return final_list
+
+def tagChangeFullforword(tags):
+    short_names= ['NOUN', '.', 'NUM', 'ADJ', 'VERB', 'DET', 'ADP', 'CONJ', 'X', 'ADV', 'PRT', 'PRON']
+    full_names = ["Noun","Punctuation","Number","Adjoint","Verb","Article","Preposition","Conjunction","Unknown","Adverb","Particle","Pronoun"] 
+    # final_list = []
+    # for tag  in tags:
+    ind = short_names.index(tag)
+    return full_names[ind]
+    # return final_list
 
 def viterbi_algorithm(obs_seq):
     m = len(obs_seq)
@@ -219,48 +228,55 @@ def viterbi_algorithm(obs_seq):
 
     return best_path, b
 
-# ---------------------------------------------------------------------
-import nltk
-import nltk.corpus as nltkc
+# # ---------------------------------------------------------------------
+# import nltk
+# import nltk.corpus as nltkc
 
+ 
+# treebank_corpus = nltkc.treebank.tagged_sents(tagset='universal')
+# # brown_corpus = nltkc.brown.tagged_sents(tagset='universal')
+# # conll_corpus = nltkc.conll2000.tagged_sents(tagset='universal')
 
-treebank_corpus = nltkc.treebank.tagged_sents(tagset='universal')
-# brown_corpus = nltkc.brown.tagged_sents(tagset='universal')
-# conll_corpus = nltkc.conll2000.tagged_sents(tagset='universal')
+# # #joining all the 3 data 
+# # nltk_data = treebank_corpus + brown_corpus + conll_corpus
+# nltk_data = list(treebank_corpus[:2000])
+# options = ["NOUN","ADJ","VERB","DET","ADP","CONJ","ADV","PRT","PRON"]
 
-# #joining all the 3 data 
-# nltk_data = treebank_corpus + brown_corpus + conll_corpus
-nltk_data = list(treebank_corpus[:2000])
-options = ["NOUN","ADJ","VERB","DET","ADP","CONJ","ADV","PRT","PRON"]
-
-for sentance in nltk_data:
-    sentance_correct = []
-    ind = random.randint(1,len(sentance))
-    ans_ind = 0
-    got_ans = False
-    for word,tag in sentance:
-        ans_ind+=1
-        if tag not in [".","X","NUM"]:
-            if ans_ind>ind and not got_ans:
-                # here i will store the answere in database 
-                print(word,tag)
-                queWord,queTag = word,tag
-                got_ans = True
-        if tag != "X":
-            sentance_correct.append(word)
+# for sentance in nltk_data:
+#     sentance_correct = []
+#     ind = random.randint(1,len(sentance))
+#     ans_ind = 0
+#     got_ans = False
+#     for word,tag in sentance:
+#         ans_ind+=1
+#         if tag not in [".","X","NUM"]:
+#             if ans_ind>ind and not got_ans:
+#                 # print(tag)
+#                 # here i will store the answere in database 
+#                 # print(tag)
+#                 tag = tagChangeFullforword(tag)
+#                 # print(word,tag)
+#                 queWord,queTag = word,tag
+#                 got_ans = True  
+#         if tag != "X":
+#             sentance_correct.append(word)
     
 
-    if got_ans == False:
-        for word,tag in sentance:
-            if tag not in [".","X","NUM"] and not got_ans:
-                # here i will store the answere in database
-                queWord,queTag = word,tag
-                # print(word,tag)
-                got_ans = True
-    # QuizQuestion.objects.create(sentance=" ".join(sentance_correct),word ="")
-    QuizAns.objects.create(sentance = QuizQuestion.objects.create(sentance=" ".join(sentance_correct),word =queWord) ,answer =queTag )
-    print(sentance)
-print("------------Done!------------")
+#     if got_ans == False:
+#         for word,tag in sentance:
+#             if tag not in [".","X","NUM"] and not got_ans:
+#                 # here i will store the answere in database
+#                 print(tag)
+#                 tag = tagChangeFullforword(tag)
+#                 print(tag)
+#                 queWord,queTag = word,tag
+#                 # print(word,tag)
+#                 got_ans = True
+#     # QuizQuestion.objects.create(sentance=" ".join(sentance_correct),word ="")
+
+#     QuizAns.objects.create(sentance = QuizQuestion.objects.create(sentance=" ".join(sentance_correct),word =queWord) ,answer =queTag )
+#     # print(sentance)
+# print("------------Done!------------")
 
 
 
